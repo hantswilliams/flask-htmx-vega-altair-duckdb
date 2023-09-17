@@ -1,0 +1,6 @@
+flask 
+polars
+altair
+vega-datasets
+duckdb 
+python-dotenv

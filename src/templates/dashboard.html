@@ -1,0 +1,54 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<!-- Chart Data - Centered with Tailwind -->
+<!-- <div class="flex justify-center">
+    <div id="vis1"></div>
+    <script>
+        fetch('/data/chart-data')
+        .then(response => response.json())
+        .then(data => {
+            vegaEmbed('#vis1', data);
+        });
+    </script>
+</div> -->
+
+<!-- Chart Data - Side by Side with Tailwind -->
+<!-- <div class="flex justify-center">
+    <div id="vis2"></div>
+    <script>
+        fetch('/data/chart-data-2')
+        .then(response => response.json())
+        .then(data => {
+            vegaEmbed('#vis2', data);
+        });
+    </script>
+</div> -->
+
+
+<!-- Chart Data - Altair Variables - Reusing -->
+<div class="flex justify-center">
+    <div id="vis4"></div>
+    <script>
+        fetch('/data/altair/example/reusing')
+        .then(response => response.json())
+        .then(data => {
+            vegaEmbed('#vis3', data);
+        });
+    </script>
+
+<!-- Chart Data - Altair Brush Example with Tailwind -->
+<div class="flex justify-center">
+    <div id="vis3"></div>
+    <script>
+        fetch('/data/altair/example/brush')
+        .then(response => response.json())
+        .then(data => {
+            vegaEmbed('#vis4', data);
+        });
+    </script>
+</div>
+
+
+{% endblock %}

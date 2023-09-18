@@ -1,4 +1,6 @@
-flask 
 altair
-vega-datasets
+black
+flask
 python-dotenv
+vega-datasets
+

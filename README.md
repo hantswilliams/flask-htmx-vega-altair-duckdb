@@ -1,5 +1,8 @@
 # Modern Flask Dashboarding with Altair, Tailwind, Htmx, DuckDB, and more... 
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+
 ## About
 The purpose of this repo is to create a template of what a slim (< 250mb build for fast deployment on Vercel) flask application centered around dashboarding (interactive visuals powered by Altair (vega-light)), along with styling provided by Tailwind, could look like. 
 

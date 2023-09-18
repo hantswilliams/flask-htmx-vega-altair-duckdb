@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify
 import altair as alt
 from vega_datasets import data
-import pandas as pd
 
 main = Blueprint('blueprint-data', __name__)
 
@@ -44,16 +43,21 @@ def example_pointmap():
 
 @main.route('/altair/example/barchart')
 def barchart():
-    # example taken from: https://altair-viz.github.io/gallery/simple_bar_chart.html
-    source = pd.DataFrame({
-    'a': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
-    'b': [28, 55, 43, 91, 81, 53, 19, 87, 52]
-    })
+    # example taken from: https://altair-viz.github.io/gallery/bar_chart_with_highlighted_bar.html
+    
+    source = data.wheat()
 
     barchart = alt.Chart(source).mark_bar().encode(
-        x='a',
-        y='b'
-    )
+        x='year:O',
+        y="wheat:Q",
+        # The highlight will be set on the result of a conditional statement
+        color=alt.condition(
+            alt.datum.year == 1810,  # If the year is 1810 this test returns True,
+            alt.value('orange'),     # which sets the bar orange.
+            alt.value('steelblue')   # And if it's not true it sets the bar steelblue.
+        )
+    ).properties(width=600)
+
     return jsonify(barchart.to_dict())
 
 

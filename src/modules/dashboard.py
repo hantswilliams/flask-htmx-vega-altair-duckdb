@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template
 
-main = Blueprint('blueprint-dashboard', __name__)
+main = Blueprint("blueprint-dashboard", __name__)
 
-@main.route('/')
+
+@main.route("/")
 def index():
-    return render_template('dashboard.html')
-
+    return render_template("dashboard.html")

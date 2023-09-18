@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, jsonify
-import altair as alt
-import pandas as pd
+from flask import Blueprint, render_template
 
 main = Blueprint('blueprint-dashboard', __name__)
 

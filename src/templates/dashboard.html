@@ -2,53 +2,135 @@
 
 {% block content %}
 
-<!-- Chart Data - Centered with Tailwind -->
-<!-- <div class="flex justify-center">
-    <div id="vis1"></div>
-    <script>
-        fetch('/data/chart-data')
-        .then(response => response.json())
-        .then(data => {
-            vegaEmbed('#vis1', data);
-        });
-    </script>
-</div> -->
 
-<!-- Chart Data - Side by Side with Tailwind -->
-<!-- <div class="flex justify-center">
-    <div id="vis2"></div>
-    <script>
-        fetch('/data/chart-data-2')
-        .then(response => response.json())
-        .then(data => {
-            vegaEmbed('#vis2', data);
-        });
-    </script>
-</div> -->
-
-
-<!-- Chart Data - Altair Variables - Reusing -->
-<div class="flex justify-center">
-    <div id="vis4"></div>
-    <script>
-        fetch('/data/altair/example/reusing')
-        .then(response => response.json())
-        .then(data => {
-            vegaEmbed('#vis3', data);
-        });
-    </script>
-
-<!-- Chart Data - Altair Brush Example with Tailwind -->
-<div class="flex justify-center">
-    <div id="vis3"></div>
-    <script>
-        fetch('/data/altair/example/brush')
-        .then(response => response.json())
-        .then(data => {
-            vegaEmbed('#vis4', data);
-        });
-    </script>
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Interactive Map: Point Data [interactive] </dt>
+        <div id="example-pointmap" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/pointmap')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-pointmap', data);
+                });
+            </script>
+        </div>
+    </div>
 </div>
+
+
+
+
+<div class="flex items-center justify-center">
+    <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Bar Chart [not interactive] </dt>
+        <!-- Simple Bar Chart -->
+        <div id="example-bar" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/barchart')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-bar', data);
+                });
+            </script>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Scatter Chart [not interactive]</dt>
+        <!-- Simple Scatter Plot -->
+        <div id="example-reusing" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/scatter')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-reusing', data);
+                });
+            </script>
+        </div>
+      </div>
+
+    </dl>
+</div>
+
+
+
+
+
+
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <!-- Chart Data - Interactive- Centered -->
+        <!-- Chart Data - Altair Brush Example with Tailwind -->
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Brush Chart [interactive] </dt>
+        <div id="example-brush">
+            <script>
+                fetch('/data/altair/example/brush')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-brush', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <!-- Chart Data - Interactive- Centered -->
+        <!-- Chart Data - Altair Brush Example with Tailwind -->
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Brush Scatter [interactive] </dt>
+        <div id="example-brushscratter">
+            <script>
+                fetch('/data/altair/example/interactive/brushscatter')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-brushscratter', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Interactive Legend [interactive] </dt>
+        <div id="example-interactivelegend" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/interactivelegend')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-interactivelegend', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Interactive Cross Height [interactive] </dt>
+        <div id="example-interactivecrossheight" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/interactive-crossheight')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-interactivecrossheight', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
 
 
 {% endblock %}

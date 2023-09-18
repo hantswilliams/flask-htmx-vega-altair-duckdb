@@ -7,6 +7,11 @@
 - visualizations: vega 
 - local db: duckDb 
 
+## To do
+- Some github actions for:
+    - Pytests
+    - Linters 
+
 ## Tailwind
 - Took all of the elements out of box from [tailwind-ui](https://tailwindui.com/) and performed minimal modifications 
 

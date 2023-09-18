@@ -5,62 +5,111 @@ import pandas as pd
 
 main = Blueprint('blueprint-data', __name__)
 
-### This below endpoint shows a single chart with static data
-@main.route('/chart-data')
-def chart_data():
-    # Sample data
-    data = pd.DataFrame({
-        'x': ['A', 'B', 'C', 'D', 'E'],
-        'y': [5, 3, 6, 7, 2]
+
+@main.route('/altair/example/pointmap')
+def example_pointmap():
+    # example taken from: https://altair-viz.github.io/gallery/point_map.html
+
+    # Read in points
+    airports = data.airports()
+
+    # Read in polygons from topojson
+    states = alt.topo_feature(data.us_10m.url, feature='states')
+
+    # US states background
+    background = alt.Chart(states).mark_geoshape(
+        fill='lightgray',
+        stroke='white'
+    ).properties(
+        width=500,
+        height=300
+    ).project('albersUsa')
+
+    # airport positions on background
+    points = alt.Chart(airports).mark_circle(
+        size=10,
+        color='steelblue'
+    ).encode(
+        longitude='longitude:Q',
+        latitude='latitude:Q',
+        tooltip=['name', 'city', 'state']
+    )
+
+    chart = background + points
+
+    return jsonify(chart.to_dict())
+
+
+
+
+@main.route('/altair/example/barchart')
+def barchart():
+    # example taken from: https://altair-viz.github.io/gallery/simple_bar_chart.html
+    source = pd.DataFrame({
+    'a': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
+    'b': [28, 55, 43, 91, 81, 53, 19, 87, 52]
     })
 
-    # Create Altair chart
-    simple_chart = alt.Chart(data).mark_bar().encode(
-        x='x',
-        y='y'
-    )   
-    return jsonify(simple_chart.to_dict())
+    barchart = alt.Chart(source).mark_bar().encode(
+        x='a',
+        y='b'
+    )
+    return jsonify(barchart.to_dict())
 
 
-### This below endpoint should demonstrate the functionality of INTERACTIVE charts
-@main.route('/chart-data-2')
-def chart_data_2():
-    # Sample data for two products across months
-    data = pd.DataFrame({
-        'month': ['A', 'B', 'C', 'D', 'E']*2,
-        'sales': [5, 3, 6, 7, 2, 4, 31, 14, 23, 30],
-        'product': ['Product 1']*5 + ['Product 2']*5
-    })
+@main.route('/altair/example/interactive/brushscatter')
+def brush_scatter():
+    # original example: https://altair-viz.github.io/gallery/scatter_linked_table.html
+    source = data.cars()
 
-    print(data)
+    # Brush for selection
+    brush = alt.selection_interval()
 
-    # Selection for interaction
-    brush = alt.selection(type='interval', encodings=['x'])
+    # Scatter Plot
+    points = alt.Chart(source).mark_point().encode(
+        x='Horsepower:Q',
+        y='Miles_per_Gallon:Q',
+        color=alt.condition(brush, alt.value('steelblue'), alt.value('grey'))
+    ).add_params(brush)
 
-    # First chart for 'Product 1'
-    chart1 = alt.Chart(data[data['product'] == 'Product 1']).mark_bar().encode(
-        x='month',
-        y='sales',
-        color=alt.condition(brush, 'product:N', alt.value('lightgray'))
-    ).add_selection(
+    # Base chart for data tables
+    ranked_text = alt.Chart(source).mark_text(align='right').encode(
+        y=alt.Y('row_number:O').axis(None)
+    ).transform_filter(
         brush
+    ).transform_window(
+        row_number='row_number()'
+    ).transform_filter(
+        alt.datum.row_number < 15
     )
 
-    # Second chart for 'Product 2' with the interaction from the first chart
-    chart2 = alt.Chart(data[data['product'] == 'Product 2']).mark_bar().encode(
-        x='month',
-        y='sales',
-        color=alt.condition(brush, 'product:N', alt.value('lightgray'))
+    # Data Tables
+    horsepower = ranked_text.encode(text='Horsepower:N').properties(
+        title=alt.Title(text='Horsepower', align='right')
+    )
+    mpg = ranked_text.encode(text='Miles_per_Gallon:N').properties(
+        title=alt.Title(text='MPG', align='right')
+    )
+    origin = ranked_text.encode(text='Origin:N').properties(
+        title=alt.Title(text='Origin', align='right')
+    )
+    text = alt.hconcat(horsepower, mpg, origin) # Combine data tables
+
+    # Build chart
+    brush_scatter_plot = alt.hconcat(
+        points,
+        text
+    ).resolve_legend(
+        color="independent"
+    ).configure_view(
+        stroke=None
     )
 
-    # Combine the two charts
-    combined_cart = alt.hconcat(chart1, chart2).properties(title='Sales by month')
-
-    return jsonify(combined_cart.to_dict())
+    return jsonify(brush_scatter_plot.to_dict())
 
 
 
-@main.route('/altair/example/reusing')
+@main.route('/altair/example/scatter')
 def reusing_example():
     cars = data.cars.url
 
@@ -68,6 +117,63 @@ def reusing_example():
         x='Horsepower:Q',
         y='Miles_per_Gallon:Q',
         color='Origin:N'
+    )
+
+    return jsonify(chart.to_dict())
+
+
+@main.route('/altair/example/interactivelegend')
+def interactive_legend():
+    #example taken from: https://altair-viz.github.io/gallery/interactive_legend.html
+    source = data.unemployment_across_industries.url
+
+    selection = alt.selection_point(fields=['series'], bind='legend')
+
+    chart = alt.Chart(source).mark_area().encode(
+        alt.X('yearmonth(date):T').axis(domain=False, format='%Y', tickSize=0),
+        alt.Y('sum(count):Q').stack('center').axis(None),
+        alt.Color('series:N').scale(scheme='category20b'),
+        opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+    ).add_params(
+        selection
+    )
+
+    return jsonify(chart.to_dict())
+
+
+
+@main.route('/altair/example/interactive-crossheight')
+def interactive_crossheight():
+    ## example from: https://altair-viz.github.io/gallery/interactive_cross_highlight.html
+    source = data.movies.url
+
+    pts = alt.selection_point(encodings=['x'])
+
+    rect = alt.Chart(data.movies.url).mark_rect().encode(
+        alt.X('IMDB_Rating:Q').bin(),
+        alt.Y('Rotten_Tomatoes_Rating:Q').bin(),
+        alt.Color('count()').scale(scheme='greenblue').title('Total Records')
+    )
+
+    circ = rect.mark_point().encode(
+        alt.ColorValue('grey'),
+        alt.Size('count()').title('Records in Selection')
+    ).transform_filter(
+        pts
+    )
+
+    bar = alt.Chart(source, width=550, height=200).mark_bar().encode(
+        x='Major_Genre:N',
+        y='count()',
+        color=alt.condition(pts, alt.ColorValue("steelblue"), alt.ColorValue("grey"))
+    ).add_params(pts)
+
+    chart = alt.vconcat(
+        rect + circ,
+        bar
+    ).resolve_legend(
+        color="independent",
+        size="independent"
     )
 
     return jsonify(chart.to_dict())

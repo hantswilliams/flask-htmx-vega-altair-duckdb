@@ -7,6 +7,8 @@
 ## About
 The purpose of this repo is to create a template of what a slim (< 250mb build for fast deployment on Vercel) flask application centered around dashboarding (interactive visuals powered by Altair (vega-light)), along with styling provided by Tailwind, could look like. 
 
+![example gif 1](src/static/example1.gif)
+
 In addition, some future modules will be added on in the future that explore DuckDB for doing very basic data processing, and HTMX as a replacement for requiring flask developers to have to perform any additional javascript. 
 
 Trying to keep it basic. 

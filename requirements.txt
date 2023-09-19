@@ -3,4 +3,5 @@ black
 flask
 python-dotenv
 vega-datasets
+duckdb
 

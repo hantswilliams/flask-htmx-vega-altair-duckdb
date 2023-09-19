@@ -3,6 +3,7 @@
 {% block content %}
 
 
+
 <div class="flex items-center justify-center mt-10">
     <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
         <dt class="truncate text-sm font-medium text-gray-500 pb-6">Interactive Map: Point Data [interactive] </dt>
@@ -129,6 +130,58 @@
         </div>
     </div>
 </div>
+
+
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Example with 1 Filters, 2 Chart with Drop Down[interactive] </dt>
+        <div id="example-dropdown-one" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/interactive-one-dropdown')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-dropdown-one', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Example with 2 Filters, 2 Chart with Drop Down[interactive] </dt>
+        <div id="example-dropdown-two" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/interactive-two-dropdown')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-dropdown-two', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex items-center justify-center mt-10">
+    <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Example with 1 Filters, 3 Chart with Drop Down[interactive] </dt>
+        <div id="example-dropdown-one-three" class="overflow-hidden">
+            <script>
+                fetch('/data/altair/example/interactive-one-dropdown-three-visuals')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-dropdown-one-three', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
 
 
 

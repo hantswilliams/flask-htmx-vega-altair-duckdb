@@ -219,3 +219,161 @@ def brush_example():
     chart = alt.vconcat(upper, lower)
 
     return jsonify(chart.to_dict())
+
+
+@main.route("/altair/example/interactive-one-dropdown")
+def interactive_dropdown_one():
+    # Dropdown for both X-axis of scatter plot and Y-axis of bar chart
+    dropdown = alt.binding_select(
+        options=['Horsepower', 'Displacement', 'Weight_in_lbs', 'Acceleration'],
+        name='Column Selector '
+    )
+    col_param = alt.param(
+        value='Horsepower',
+        bind=dropdown
+    )
+
+    # Scatter chart
+    scatter_chart = alt.Chart(data.cars.url).mark_circle().encode(
+        x=alt.X('x:Q', title=''),
+        y='Miles_per_Gallon:Q',
+        color='Origin:N'
+    ).transform_calculate(
+        x=f'datum[{col_param.name}]'
+    ).add_params(
+        col_param
+    )
+
+    # Bar chart
+    bar_chart = alt.Chart(data.cars.url).mark_bar().encode(
+        x=alt.X('Origin:N', title='Origin'),
+        y=alt.Y('y:Q', title=''),
+        color='Origin:N'
+    ).transform_calculate(
+        y=f'datum[{col_param.name}]'
+    ).transform_aggregate(
+        average_y='mean(y)',
+        groupby=['Origin']
+    ).encode(
+        y='average_y:Q'
+    )
+
+    chart = alt.hconcat(scatter_chart, bar_chart)
+
+    return jsonify(chart.to_dict())
+
+
+@main.route("/altair/example/interactive-two-dropdown")
+def interactive_dropdown_two():
+    # # example idea built from: https://altair-viz.github.io/user_guide/interactions.html
+    # Dropdown for X-axis
+    dropdown_x = alt.binding_select(
+        options=['Horsepower', 'Displacement', 'Weight_in_lbs', 'Acceleration'],
+        name='Scatter: '
+    )
+    xcol_param = alt.param(
+        value='Horsepower',
+        bind=dropdown_x
+    )
+
+    # Dropdown for Y-axis
+    dropdown_y = alt.binding_select(
+        options=['Horsepower', 'Displacement', 'Weight_in_lbs', 'Acceleration'],
+        name='Bar: '
+    )
+    ycol_param = alt.param(
+        value='Horsepower',
+        bind=dropdown_y
+    )
+
+    # Scatter chart
+    scatter_chart = alt.Chart(data.cars.url).mark_circle().encode(
+        x=alt.X('x:Q', title=''),
+        y='Miles_per_Gallon:Q',
+        color='Origin:N'
+    ).transform_calculate(
+        x=f'datum[{xcol_param.name}]'
+    ).add_params(
+        xcol_param
+    )
+
+    # Bar chart
+    bar_chart = alt.Chart(data.cars.url).mark_bar().encode(
+        x=alt.X('Origin:N', title='Origin'),
+        y=alt.Y('y:Q', title=''),
+        color='Origin:N'
+    ).transform_calculate(
+        y=f'datum[{ycol_param.name}]'
+    ).transform_aggregate(
+        average_y='mean(y)',
+        groupby=['Origin']
+    ).encode(
+        y='average_y:Q'
+    ).add_params(
+        ycol_param
+    )
+
+    chart = alt.hconcat(scatter_chart, bar_chart)
+
+    return jsonify(chart.to_dict())
+
+
+
+@main.route("/altair/example/interactive-one-dropdown-three-visuals")
+def interactive_dropdown_one_three_visuals():
+
+    # Dropdown for X-axis of scatter plot, Y-axis of bar chart, and other charts
+    dropdown = alt.binding_select(
+        options=['Horsepower', 'Displacement', 'Weight_in_lbs', 'Acceleration'],
+        name='Column Selector '
+    )
+    col_param = alt.param(
+        value='Horsepower',
+        bind=dropdown
+    )
+
+    # Scatter chart
+    scatter_chart = alt.Chart(data.cars.url).mark_circle().encode(
+        x=alt.X('x:Q', title=''),
+        y='Miles_per_Gallon:Q',
+        color='Origin:N'
+    ).transform_calculate(
+        x=f'datum[{col_param.name}]'
+    ).add_params(
+        col_param
+    )
+
+    # Bar chart
+    bar_chart = alt.Chart(data.cars.url, width=300).mark_bar().encode(
+        x=alt.X('Origin:N', title='Origin'),
+        y=alt.Y('y:Q', title=''),
+        color='Origin:N'
+    ).transform_calculate(
+        y=f'datum[{col_param.name}]'
+    ).transform_aggregate(
+        average_y='mean(y)',
+        groupby=['Origin']
+    ).encode(
+        y='average_y:Q'
+    )
+
+    # Line chart showing trend over the years
+    line_chart = alt.Chart(data.cars.url).mark_line().encode(
+        x='Year:T',
+        y=alt.Y('y:Q', title=''),
+        color='Origin:N'
+    ).transform_calculate(
+        y=f'datum[{col_param.name}]'
+    ).transform_aggregate(
+        average_y='mean(y)',
+        groupby=['Year', 'Origin']
+    ).encode(
+        y='average_y:Q'
+    )
+
+    # Combining all the charts
+    row_1 = alt.hconcat(scatter_chart, bar_chart)
+    row_2 = alt.hconcat(line_chart)
+    chart = alt.vconcat(row_1, row_2)
+
+    return jsonify(chart.to_dict())

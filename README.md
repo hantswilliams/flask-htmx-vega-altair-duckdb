@@ -1,6 +1,8 @@
 # Modern Flask Dashboarding with Altair, Tailwind, Htmx, DuckDB, and more... 
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
+[![Lisence: apache-2](https://img.shields.io/badge/Lisence:-Apache%202-red)](https://github.com/apache/.github/blob/main/LICENSE)
+
 
 ---
 
@@ -68,6 +70,12 @@ In the provided HTML code snippet above, we're integrating an Altair graph into 
 
 In summary, this setup allows for a clean separation of concerns. The Flask application manages the data and graph generation, while the HTML and JavaScript handle the presentation and rendering of the graph on the webpage.
 
+## SPARCS - NY - 2021 Example Dataset
+
+To make this more realistic, have taken a subset of SPARCS 2021 data from NY state: [Hospital Inpatient Discharges (SPARCS De-Identified): 2021](https://health.data.ny.gov/Health/Hospital-Inpatient-Discharges-SPARCS-De-Identified/tg3i-cinn)
+
+Because of the data size, we are working with a subset of that [data published here](https://health.data.ny.gov/Health/All-Payer-Hospital-Inpatient-Discharges-by-Facilit/ivw2-k53g) which focuses on aggregate counts by Facility 
+
 ---
 
 ## To do
@@ -76,4 +84,5 @@ In summary, this setup allows for a clean separation of concerns. The Flask appl
     - [ ] Pytests
     - [x] Lint with [Black](https://black.readthedocs.io/) 
     - [ ] Security 
+    - [ ] Replace data examples with [SPARKS dataset from NY](https://health.data.ny.gov/Health/Hospital-Inpatient-Discharges-SPARCS-De-Identified/tg3i-cinn)
 

@@ -1,8 +1,10 @@
 from flask import Blueprint, jsonify
 import altair as alt
 from vega_datasets import data
+import duckdb
 
 main = Blueprint("blueprint-data", __name__)
+db = duckdb.connect(database=':memory:', read_only=False)
 
 
 @main.route("/altair/example/pointmap")
@@ -19,6 +21,7 @@ def example_pointmap():
     background = (
         alt.Chart(states)
         .mark_geoshape(fill="lightgray", stroke="white")
+        .transform_filter(alt.datum.id == 36)  # 36 is the ID for New York state
         .properties(width=500, height=300)
         .project("albersUsa")
     )
@@ -32,6 +35,7 @@ def example_pointmap():
             latitude="latitude:Q",
             tooltip=["name", "city", "state"],
         )
+        .transform_filter(alt.datum.state == 'NY')  # Filter for airports in New York state
     )
 
     chart = background + points
@@ -43,17 +47,26 @@ def example_pointmap():
 def barchart():
     # example taken from: https://altair-viz.github.io/gallery/bar_chart_with_highlighted_bar.html
 
-    source = data.wheat()
+    #source = data.wheat()
+
+    ## group by Discharge Year and get a sum of Number of Discharges from SPARCS dataset
+    source = db.execute(
+        """
+            select "Discharge Year" as year, sum("Number of Discharges") as discharges_sum 
+            from parquet_scan('sparcs/sparcs_summary.parquet') 
+            group by "Discharge Year"
+        """
+    ).df()
 
     barchart = (
         alt.Chart(source)
         .mark_bar()
         .encode(
             x="year:O",
-            y="wheat:Q",
+            y="discharges_sum:Q",
             # The highlight will be set on the result of a conditional statement
             color=alt.condition(
-                alt.datum.year == 1810,  # If the year is 1810 this test returns True,
+                alt.datum.year == 2020,  # If the year is 1810 this test returns True,
                 alt.value("orange"),  # which sets the bar orange.
                 alt.value(
                     "steelblue"

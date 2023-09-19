@@ -2,8 +2,72 @@
 
 {% block content %}
 
+<div class="flex items-center justify-center mb-5">
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Ages by Insurances Type of Discharges </dt>
+        <div id="example-age-insurance-group" class="overflow-hidden">
+            <script>
+                fetch('/data/sparcs/example/interactive-visuals')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-age-insurance-group', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
 
 
+<div class="flex items-center justify-center mb-5">
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Sum of Discharges per Year </dt>
+        <div id="example-bar" class="overflow-hidden">
+            <script>
+                fetch('/data/sparcs/example/barchart')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-bar', data);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+<div class="flex items-center justify-center mb-5">
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Discharges by Insurance and Gender (Sex) </dt>
+        <div id="example-bar-stacked" class="overflow-hidden">
+            <script>
+                fetch('/data/sparcs/example/barchart-stacked')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-bar-stacked', data);
+                });
+            </script>
+        </div>
+      </div>
+</div>
+
+<div class="flex items-center justify-center mb-5">
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Discharges by Insurance Type and Year </dt>
+        <div id="example-area-chart" class="overflow-hidden">
+            <script>
+                fetch('/data/sparcs/example/area-chart')
+                .then(response => response.json())
+                .then(data => {
+                    vegaEmbed('#example-area-chart', data);
+                });
+            </script>
+        </div>
+      </div>
+</div>
+
+
+
+
+
+<!-- 
 <div class="flex items-center justify-center mt-10">
     <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
         <dt class="truncate text-sm font-medium text-gray-500 pb-6">Interactive Map: Point Data [interactive] </dt>
@@ -20,53 +84,8 @@
 </div>
 
 
-
-
-<div class="flex items-center justify-center">
-    <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-
-      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Bar Chart: Sum of Discharges per Year [not interactive] </dt>
-        <!-- Simple Bar Chart -->
-        <div id="example-bar" class="overflow-hidden">
-            <script>
-                fetch('/data/altair/example/barchart')
-                .then(response => response.json())
-                .then(data => {
-                    vegaEmbed('#example-bar', data);
-                });
-            </script>
-        </div>
-      </div>
-
-      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-        <dt class="truncate text-sm font-medium text-gray-500 pb-6">Scatter Chart [not interactive]</dt>
-        <!-- Simple Scatter Plot -->
-        <div id="example-reusing" class="overflow-hidden">
-            <script>
-                fetch('/data/altair/example/scatter')
-                .then(response => response.json())
-                .then(data => {
-                    vegaEmbed('#example-reusing', data);
-                });
-            </script>
-        </div>
-      </div>
-
-    </dl>
-</div>
-
-
-
-
-
-
-
-
 <div class="flex items-center justify-center mt-10">
     <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-        <!-- Chart Data - Interactive- Centered -->
-        <!-- Chart Data - Altair Brush Example with Tailwind -->
         <dt class="truncate text-sm font-medium text-gray-500 pb-6">Brush Chart [interactive] </dt>
         <div id="example-brush">
             <script>
@@ -84,8 +103,6 @@
 
 <div class="flex items-center justify-center mt-10">
     <div class="rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-        <!-- Chart Data - Interactive- Centered -->
-        <!-- Chart Data - Altair Brush Example with Tailwind -->
         <dt class="truncate text-sm font-medium text-gray-500 pb-6">Brush Scatter [interactive] </dt>
         <div id="example-brushscratter">
             <script>
@@ -179,7 +196,7 @@
             </script>
         </div>
     </div>
-</div>
+</div> -->
 
 
 

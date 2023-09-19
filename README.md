@@ -76,6 +76,9 @@ To make this more realistic, have taken a subset of SPARCS 2021 data from NY sta
 
 Because of the data size, we are working with a subset of that [data published here](https://health.data.ny.gov/Health/All-Payer-Hospital-Inpatient-Discharges-by-Facilit/ivw2-k53g) which focuses on aggregate counts by Facility 
 
+Then to do some visualizations, have another table that contains the facility info, like Lat/Long which came from [here](https://health.data.ny.gov/Health/Health-Facility-General-Information/vn5v-hh5r/data)
+
+
 ---
 
 ## To do

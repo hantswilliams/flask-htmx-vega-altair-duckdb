@@ -1,0 +1,15 @@
+/* Adjustments for medium-sized screens */
+@media screen and (max-width: 1000px) {
+    #example-bar {
+        max-width: 90%;  /* Adjust as needed */
+        /* additional adjustments... */
+    }
+}
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 1000px) {
+    #example-bar {
+        max-width: 100%;
+        /* additional adjustments... */
+    }
+}
